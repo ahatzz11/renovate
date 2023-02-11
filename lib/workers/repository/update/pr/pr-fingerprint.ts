@@ -84,16 +84,18 @@ export function validatePrCache(
   prFingerprint: string
 ): boolean {
   if (prCache.fingerprint !== prFingerprint) {
-    logger.debug('PR fingerprints mismatch, processing PR');
+    logger.debug('prCache: fingerprint changed, checking PR');
     return false;
   }
 
-  if (getElapsedHours(prCache.lastEdited) < 24) {
+  const elapsedHours = getElapsedHours(prCache.lastEdited);
+  if (elapsedHours >= 24) {
     logger.debug(
-      'PR cache matches but it has been edited in the past 24hrs, so processing PR'
+      `prCache: fingerprint match, skipping PR body validation step`
     );
-    return false;
+    return true;
   }
 
-  return true;
+  logger.debug(`prCache: fingerprint match, elapsedHours=${elapsedHours}`);
+  return false;
 }

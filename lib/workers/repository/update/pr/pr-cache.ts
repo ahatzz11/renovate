@@ -3,7 +3,7 @@ import { getCache } from '../../../../util/cache/repository';
 import type { PrCache } from '../../../../util/cache/repository/types';
 
 export function getPrCache(branchName: string): PrCache | null {
-  logger.debug(`getPrCache()`);
+  logger.trace(`getPrCache()`);
   const cache = getCache();
   const branch = cache.branches?.find(
     (branch) => branchName === branch.branchName
@@ -22,7 +22,7 @@ export function setPrCache(
   fingerprint: string,
   prModified: boolean
 ): void {
-  logger.debug(`setPrCache()`);
+  logger.trace(`setPrCache()`);
   const cache = getCache();
   const branch = cache.branches?.find(
     (branch) => branchName === branch.branchName

@@ -771,7 +771,7 @@ describe('workers/repository/update/pr/index', () => {
           '123 does not need updating'
         );
         expect(logger.logger.debug).toHaveBeenCalledWith(
-          'PR cache matches but it has been edited in the past 24hrs, so processing PR'
+          'prCache: fingerprint match, elapsedHours=0'
         );
         expect(prCache.setPrCache).toHaveBeenCalledWith(
           sourceBranch,
@@ -796,7 +796,7 @@ describe('workers/repository/update/pr/index', () => {
           pr: { ...existingPr, title: 'Another title' },
         });
         expect(logger.logger.debug).toHaveBeenCalledWith(
-          'PR fingerprints mismatch, processing PR'
+          'prCache: fingerprint changed, checking PR'
         );
         expect(prCache.setPrCache).toHaveBeenCalledTimes(1);
       });
@@ -815,7 +815,7 @@ describe('workers/repository/update/pr/index', () => {
           pr: existingPr,
         });
         expect(logger.logger.debug).toHaveBeenCalledWith(
-          'PR cache matches and no PR changes in last 24hrs, so skipping PR body check'
+          'prCache: fingerprint match, skipping PR body validation step'
         );
         expect(embedChangelog).toHaveBeenCalledTimes(0);
       });
